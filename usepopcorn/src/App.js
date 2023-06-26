@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Main from "./main";
-import NavBar from "./Nav-bar";
+import Main from "./components/main";
+import NavBar from "./components/Nav-bar";
 
 export default function App() {
   return (
