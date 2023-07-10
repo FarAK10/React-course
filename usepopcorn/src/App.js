@@ -9,14 +9,12 @@ import { tempWatchedData } from "./data";
 import MovieDetail from "./components/selected-movie";
 
 const KEY = "b8650e57";
-export default function App() {
-  const tempQuery = "interstellar";
-
+export function App() {
   const [movies, setMovies] = useState(tempMovieData);
-  const [watched, setWatched] = useState(tempWatchedData);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("inception");
   const [selectedId, setSelectedId] = useState(null);
 
   function handleSelectMovie(id) {
@@ -25,6 +23,14 @@ export default function App() {
 
   function handleCloseMovie() {
     setSelectedId(null);
+  }
+
+  function handleAddWatched(movie) {
+    setWatched((watched) => [...watched, movie]);
+  }
+
+  function handleDeleteWatched(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   }
 
   useEffect(
@@ -80,11 +86,16 @@ export default function App() {
             <MovieDetail
               selectedId={selectedId}
               onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
             ></MovieDetail>
           ) : (
             <>
               <WatchedSummary watched={watched}></WatchedSummary>
-              <WatchedMovieList watched={watched}></WatchedMovieList>
+              <WatchedMovieList
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}
+              ></WatchedMovieList>
             </>
           )}
         </Box>
@@ -93,7 +104,7 @@ export default function App() {
   );
 }
 
-function Loader() {
+export function Loader() {
   return <p className="loader">Loading...</p>;
 }
 
