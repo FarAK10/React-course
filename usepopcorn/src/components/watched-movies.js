@@ -45,7 +45,7 @@ export function WatchedMovieList({ watched, onDeleteWatched }) {
 }
 
 function WatchedMovie({ movie, onDeleteWatched }) {
-  console.log(movie);
+  
   return (
     <li key={movie.imdbID}>
       <img src={movie.poster} alt={`${movie.Title} poster`} />

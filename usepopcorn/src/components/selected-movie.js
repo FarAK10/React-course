@@ -43,7 +43,17 @@ export default function MovieDetails({
     onCloseMovie();
   }
 
-  console.log(title, year);
+  useEffect(function(){
+    function callback(e){
+      if(e.code==='Escape'){
+        onCloseMovie();
+      }
+    }
+    document.addEventListener('keydown',callback)
+    return function(){
+      document.removeEventListener('keydown',);
+    }
+  },[onCloseMovie])
 
   useEffect(
     function () {
@@ -60,6 +70,16 @@ export default function MovieDetails({
     },
     [selectedId]
   );
+
+  useEffect(function (){
+    if(!title) return;
+    document.title = `Movie | ${title}`;
+
+
+    return function(){
+      document.title = 'usePopCorn';
+    }
+  },[title])
 
   return (
     <div className="details">
