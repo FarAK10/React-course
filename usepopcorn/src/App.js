@@ -13,11 +13,6 @@ const KEY = "b8650e57";
 
 export function App() {
   const [watched,setWatched] = useLocalStorageState([],'watched')
-  // const [watched, setWatched] = useState(()=>{
-  //   const stored =JSON.parse(localStorage.getItem('watched'));
-  //   if(stored) return stored;
-  //   return []
-  // });
  
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
