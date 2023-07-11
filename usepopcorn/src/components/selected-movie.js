@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import StarRating from "../shared/star-rating";
+import { useEffect, useState,useRef } from "react";
+import StarRating from "../shared/components/star-rating";
 import { Loader } from "../App";
 const KEY = "b8650e57";
 export default function MovieDetails({
@@ -11,10 +11,22 @@ export default function MovieDetails({
   const [movie, setMovie] = useState({});
   const [isLoading, setLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
+
+  const countRef = useRef(0);
+
+  useEffect(function(){
+    if(userRating)  countRef.current +=1;
+
+
+  },[userRating])
+
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
   const watchedUserRating = watched.find(
     (movie) => movie.imdbID === selectedId
   )?.userRating;
+
+
+
 
   const {
     Title: title,
@@ -29,6 +41,9 @@ export default function MovieDetails({
     Genre: genre,
   } = movie;
 
+  const [avgRating,setAvgRating]   = useState(0);
+
+
   function handleAdd() {
     const newWatchedMovie = {
       imdbID: selectedId,
@@ -38,8 +53,10 @@ export default function MovieDetails({
       imbdbRating: Number(imdbRating),
       runtime: Number(runtime.split(" ").at(0)),
       userRating,
+      countRatingDecisions: countRef.current,
     };
     onAddWatched(newWatchedMovie);
+    setAvgRating((avgRating)=>(avgRating+userRating)/2)
     onCloseMovie();
   }
 
@@ -51,7 +68,7 @@ export default function MovieDetails({
     }
     document.addEventListener('keydown',callback)
     return function(){
-      document.removeEventListener('keydown',);
+      document.removeEventListener('keydown',callback);
     }
   },[onCloseMovie])
 
