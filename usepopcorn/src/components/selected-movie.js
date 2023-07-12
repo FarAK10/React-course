@@ -60,6 +60,8 @@ export default function MovieDetails({
     setAvgRating((avgRating)=>(avgRating+userRating)/2)
     onCloseMovie();
   }
+
+  
   useKey('Escape',onCloseMovie)
   
 
